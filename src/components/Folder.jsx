@@ -1,6 +1,7 @@
 import React from "react";
 import Actions from "./Actions";
 import File from "./File";
+import { handleAddFile } from "../utils/Utils";
 
 const Folder = ({ folder }) => {
     const [isOpen, setIsOpen] = React.useState(true);
@@ -13,18 +14,31 @@ const Folder = ({ folder }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                padding: "10px",
                 border: "1px solid #ccc",
                 marginBottom: "5px",
                 borderRadius: "5px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
                 backgroundColor: "#f9f9f9"
             }}>
                 <h2>{folder.name}</h2>
                 <Actions
-                    handleAddFolder={() => console.log("Add Folder")}
-                    handleAddFile={() => console.log("Add File")}
-                    handleRename={() => console.log("Rename")}
-                    handleDelete={() => console.log("Delete")}
+                    handleAddFolder={(e) => {
+                        e.stopPropagation();
+                        handleAddFile(folder);
+                    }}
+                    handleAddFile={(e) => {
+                        e.stopPropagation();
+                        handleAddFile(folder);
+                    }}
+                    handleRename={(e) => {
+                        e.stopPropagation();
+                        handleRename(folder, "Update Folder Name");
+                    }}
+                    handleDelete={(e) => {
+                        e.stopPropagation();
+                        handleDelete(folder);
+                    }}
                 />
             </div>
 

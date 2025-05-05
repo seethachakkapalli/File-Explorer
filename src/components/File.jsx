@@ -1,5 +1,6 @@
 import React from "react";
 import Actions from "./Actions";
+import { handleDelete, handleRename } from "../utils/Utils";
 
 const File = ({ file }) => {
     return (
@@ -15,7 +16,16 @@ const File = ({ file }) => {
             backgroundColor: "#f9f9f9"
         }}>
             <p>{file.name}</p>
-            <Actions isFile={true} />
+            <Actions isFile={true}
+                handleRename={(e) => {
+                    e.stopPropagation();
+                    handleRename(file, "New File Name");
+                }}
+                handleDelete={(e) => {
+                    e.stopPropagation();
+                    handleDelete(file);
+                }}
+            />
         </div>
     );
 }

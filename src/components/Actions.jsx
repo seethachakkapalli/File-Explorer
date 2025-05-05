@@ -6,6 +6,7 @@ const Actions = ({ isFile, handleAddFolder, handleAddFile, handleRename, handleD
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            padding: '0px'
         }}>
             {!isFile && <div>
                 <button
