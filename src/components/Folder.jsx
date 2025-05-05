@@ -28,10 +28,19 @@ const Folder = ({ folder }) => {
                         <Actions
                             handleAddFolder={(e) => {
                                 e.stopPropagation();
-                                handleAddFile(data);
+                                const newFolderName = prompt("Enter folder name:");
+                                if (newFolderName && newFolderName.trim()) {
+                                    const updatedData = handleAddFile(data, folder.id, newFolderName.trim(), true);
+                                    setData(updatedData);
+                                }
                             }}
                             handleAddFile={(e) => {
                                 e.stopPropagation();
+                                const newFileName = prompt("Enter file name:");
+                                if (newFileName && newFileName.trim()) {
+                                    const updatedData = handleAddFile(data, folder.id, newFileName.trim(), false);
+                                    setData(updatedData);
+                                }
                                 handleAddFile(data);
                             }}
                             handleRename={(e) => {

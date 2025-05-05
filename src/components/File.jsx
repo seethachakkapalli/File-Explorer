@@ -27,7 +27,8 @@ const File = ({ file }) => {
                         }}
                         handleDelete={(e) => {
                             e.stopPropagation();
-                            handleDelete(file);
+                            const updatedData = handleDelete(data, file.id);
+                            setData(updatedData);
                         }}
                     />
                 </div>
