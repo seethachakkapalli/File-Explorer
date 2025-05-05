@@ -1,60 +1,69 @@
 import React from "react";
 import Actions from "./Actions";
 import File from "./File";
-import { handleAddFile } from "../utils/Utils";
+import { handleRename, handleAddFile, handleDelete } from "../utils/Utils";
 
 const Folder = ({ folder }) => {
     const [isOpen, setIsOpen] = React.useState(true);
+    const [data, setData] = React.useState(folder);
     return (
-        <div onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen(!isOpen);
-        }}>
-            <div style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                border: "1px solid #ccc",
-                marginBottom: "5px",
-                borderRadius: "5px",
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                backgroundColor: "#f9f9f9"
-            }}>
-                <h2>{folder.name}</h2>
-                <Actions
-                    handleAddFolder={(e) => {
-                        e.stopPropagation();
-                        handleAddFile(folder);
-                    }}
-                    handleAddFile={(e) => {
-                        e.stopPropagation();
-                        handleAddFile(folder);
-                    }}
-                    handleRename={(e) => {
-                        e.stopPropagation();
-                        handleRename(folder, "Update Folder Name");
-                    }}
-                    handleDelete={(e) => {
-                        e.stopPropagation();
-                        handleDelete(folder);
-                    }}
-                />
-            </div>
-
-            {isOpen && (
-                <div style={{
-                    marginLeft: "20px"
+        <div>
+            {data && (
+                <div onClick={(e) => {
+                    e.stopPropagation();
+                    setIsOpen(!isOpen);
                 }}>
-                    {folder.items.map(file => {
-                        if (file.isFolder) {
-                            return <Folder key={file.id} folder={file} />;
-                        } else {
-                            return <File key={file.id} file={file} />;
-                        }
-                    })}
-                </div>
-            )}
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        border: "1px solid #ccc",
+                        marginBottom: "5px",
+                        borderRadius: "5px",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                        backgroundColor: "#f9f9f9"
+                    }}>
+                        <h2>{data.name}</h2>
+                        <Actions
+                            handleAddFolder={(e) => {
+                                e.stopPropagation();
+                                handleAddFile(data);
+                            }}
+                            handleAddFile={(e) => {
+                                e.stopPropagation();
+                                handleAddFile(data);
+                            }}
+                            handleRename={(e) => {
+                                e.stopPropagation();
+                                const newName = prompt("Enter new name:", data.name);
+                                if (newName && newName.trim()) {
+                                    const updatedData = handleRename(data, folder.id, newName.trim());
+                                    setData(updatedData);
+                                }
+                            }}
+                            handleDelete={(e) => {
+                                e.stopPropagation();
+                                const updatedData = handleDelete(data, folder.id);
+                                setData(updatedData)
+                            }}
+                        />
+                    </div>
+
+                    {isOpen && (
+                        <div style={{
+                            marginLeft: "20px"
+                        }}>
+                            {data.items.map(file => {
+                                if (file.isFolder) {
+                                    return <Folder key={file.id} folder={file} />;
+                                } else {
+                                    return <File key={file.id} file={file} />;
+                                }
+                            })}
+                        </div>
+                    )}
+                </div>)}
         </div>
     );
 }
