@@ -3,8 +3,12 @@ import Actions from "./Actions";
 import File from "./File";
 
 const Folder = ({ folder }) => {
+    const [isOpen, setIsOpen] = React.useState(true);
     return (
-        <div>
+        <div onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(!isOpen);
+        }}>
             <div style={{
                 display: "flex",
                 flexDirection: "row",
@@ -23,18 +27,20 @@ const Folder = ({ folder }) => {
                     handleDelete={() => console.log("Delete")}
                 />
             </div>
-            {/* Add logic to display files in the folder */}
-            <div style={{
-                marginLeft: "20px"
-            }}>
-                {folder.items.map(file => {
-                    if (file.isFolder) {
-                        return <Folder key={file.id} folder={file} />;
-                    } else {
-                        return <File key={file.id} file={file} />;
-                    }
-                })}
-            </div>
+
+            {isOpen && (
+                <div style={{
+                    marginLeft: "20px"
+                }}>
+                    {folder.items.map(file => {
+                        if (file.isFolder) {
+                            return <Folder key={file.id} folder={file} />;
+                        } else {
+                            return <File key={file.id} file={file} />;
+                        }
+                    })}
+                </div>
+            )}
         </div>
     );
 }
